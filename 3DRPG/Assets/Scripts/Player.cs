@@ -11,6 +11,11 @@ public class Player : MonoBehaviour
     private int EXP;
     private int Lv = 1;
 
+    //在屬性面板上隱藏
+    [HideInInspector]
+    //停止：讓玩家不能移動
+    public bool stop;
+
     private Rigidbody rig;
     private Animator ani;
     private Transform cam;   //攝影機根物件
@@ -28,6 +33,7 @@ public class Player : MonoBehaviour
     }
     private void FixedUpdate()
     {
+        if (stop) return;              //如果停止→跳出（無法移動）
         Move();
     }
     #endregion
