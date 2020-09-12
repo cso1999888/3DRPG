@@ -5,10 +5,10 @@ public class Player : MonoBehaviour
     #region 欄位
     public float speed = 0.1f;
     public float turn = 5;
-    private int attack = 10;
-    private int HP = 100;
-    private int MP = 50;
-    private int EXP;
+    private float attack = 10;
+    private float HP = 100;
+    private float MP = 50;
+    private float EXP;
     private int Lv = 1;
 
     //在屬性面板上隱藏
@@ -106,9 +106,10 @@ public class Player : MonoBehaviour
         aud.PlayOneShot(soundProp);
         npc.UpdateTextMission();
     }
-    private void Hit()
+    public void Hit(float damage)
     {
-
+        HP -= damage;
+        ani.SetTrigger("Hit");
     }
     private void Dead()
     {
