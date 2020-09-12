@@ -19,6 +19,11 @@ public class Player : MonoBehaviour
     private Rigidbody rig;
     private Animator ani;
     private Transform cam;   //攝影機根物件
+
+    public AudioSource aud;
+    public AudioClip soundProp;
+
+    public NPC npc;
     #endregion
 
     #region 事件
@@ -30,11 +35,16 @@ public class Player : MonoBehaviour
         ani = GetComponent<Animator>();
         cam = GameObject.Find("Camera_RootObject").transform;
 
+        npc = FindObjectOfType<NPC>();
     }
     private void FixedUpdate()
     {
         if (stop) return;              //如果停止→跳出（無法移動）
         Move();
+    }
+    private void OnCollisionEnter(Collision collision)   //Is Trigger = false
+    {
+        if (collision.gameObject.tag == "Skull") GetProp(collision.gameObject);
     }
     #endregion
 
@@ -64,9 +74,11 @@ public class Player : MonoBehaviour
     {
 
     }
-    private void GetProp()
+    private void GetProp(GameObject prop)
     {
-
+        Destroy(prop);
+        aud.PlayOneShot(soundProp);
+        npc.UpdateTextMission();
     }
     private void Hit()
     {

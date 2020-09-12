@@ -13,7 +13,7 @@ public class NPC_Data : ScriptableObject
     [Header("NPC狀態")]
     public NPC_State _NPC_State = NPC_State.NoMission;
     [Header("任務需求數量")]
-    public int count = 20;
+    public int count = 5;
     [Header("對話：未取得任務、任務進行中、任務完成")]
     public string[] dialogues = new string[3];
 
