@@ -16,6 +16,9 @@ public class Player : MonoBehaviour
     //停止：讓玩家不能移動
     public bool stop;
 
+    [Header("傳送門：0 NPC；1 ENEMY")]
+    public Transform[] teleports;
+
     private Rigidbody rig;
     private Animator ani;
     private Transform cam;   //攝影機根物件
@@ -46,9 +49,32 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.tag == "Skull") GetProp(collision.gameObject);
     }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "Teleport")
+        {
+            transform.position = teleports[1].position;                          //如果碰到NPC端→傳送至Enemy端
+            teleports[1].GetComponent<CapsuleCollider>().enabled = false;        //關閉Enemy端碰撞
+            Invoke("OpenTeleportEnemy", 3);
+        }
+        if (other.name == "Teleport_EnemySide") 
+        {
+            transform.position = teleports[0].position;                          //如果碰到Enemy端→傳送至端
+            teleports[0].GetComponent<CapsuleCollider>().enabled = false;        //關閉NPC端碰撞
+            Invoke("OpenTeleportNPC", 3);
+        }
+    }
     #endregion
 
     #region 方法
+    private void OpenTeleportNPC()
+    {
+        teleports[0].GetComponent<CapsuleCollider>().enabled = true;
+    }
+    private void OpenTeleportEnemy()
+    {
+        teleports[1].GetComponent<CapsuleCollider>().enabled = true;
+    }
     private void Move()
     {
         float v = -Input.GetAxis("Vertical");                                                 //前後 = WS & 上下

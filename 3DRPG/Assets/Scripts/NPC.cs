@@ -22,6 +22,8 @@ public class NPC : MonoBehaviour
     public RectTransform panelMission; //RectTransform 為區塊專用 
     [Header("任務數量")]
     public Text textMission;
+    [Header("傳送門")]
+    public GameObject[] teleports;
 
     private AudioSource aud;
     private Animator ani;
@@ -106,6 +108,9 @@ public class NPC : MonoBehaviour
     {
         //如果數量 >= NPC 要求數量，將狀態改為完成
         if (count >= data.count) data._NPC_State = NPC_State.Finish;
+
+        //迴圈執行，將所有傳送門顯示
+        for (int i = 0; i < teleports.Length; i++) teleports[i].SetActive(true);
     }
 
     /// <summary>
